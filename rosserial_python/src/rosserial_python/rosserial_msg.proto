@@ -1,0 +1,9 @@
+import "nanopb.proto";
+
+message rosserial_msg {
+  required int32 topic_id = 1;
+  required string topic_name = 2 [(nanopb).max_size = 32];
+  required string message_type = 3 [(nanopb).max_size = 32];
+  required double data = 4;
+  required string md5sum = 5 [(nanopb).max_size = 64];
+}
