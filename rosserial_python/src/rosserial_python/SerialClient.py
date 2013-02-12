@@ -51,6 +51,8 @@ import socket
 import time
 import struct
 
+import rosserial_msg_pb2
+
 def load_pkg_module(package, directory):
     #check if its in the python path
     in_path = False
@@ -396,7 +398,13 @@ class SerialClient:
         """ Register a new publisher. """
         try:
             msg = TopicInfo()
-            msg.deserialize(data)
+            rosserial_msg = rosserial_msg_pb2.rosserial_msg()
+            rosserial_msg.ParseFromString(data)
+            msg.topic_id = rosserial_msg.topic_id
+            msg.topic_name = rosserial_msg.topic_name
+            msg.message_type = rosserial_msg.message_type
+            msg.buffer_size = 512
+            msg.md5sum = rosserial_msg.md5sum
             pub = Publisher(msg)
             self.publishers[msg.topic_id] = pub
             self.callbacks[msg.topic_id] = pub.handlePacket
