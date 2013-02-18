@@ -300,7 +300,7 @@ class SerialClient:
         self.lastsync_lost = rospy.Time(0)
         self.timeout = timeout
 
-        self.pub_diagnostics = rospy.Publisher('/diagnostics', diagnostic_msgs.msg.DiagnosticArray)
+        #self.pub_diagnostics = rospy.Publisher('/diagnostics', diagnostic_msgs.msg.DiagnosticArray)
 
         if port== None:
             # no port specified, listen for any new port?
@@ -358,7 +358,7 @@ class SerialClient:
             if (rospy.Time.now() - self.lastsync).to_sec() > (self.timeout * 3):
                 rospy.logerr("Lost sync with device, restarting...")
                 self.lastsync_lost = rospy.Time.now()
-                self.sendDiagnostics(diagnostic_msgs.msg.DiagnosticStatus.ERROR, "no sync with device")
+                #self.sendDiagnostics(diagnostic_msgs.msg.DiagnosticStatus.ERROR, "no sync with device")
                 self.requestTopics()
                 self.lastsync = rospy.Time.now()
 
@@ -368,7 +368,7 @@ class SerialClient:
                 continue
             flag[1] = self.port.read(1)
             if ( flag[1] != '\xff'):
-                self.sendDiagnostics(diagnostic_msgs.msg.DiagnosticStatus.ERROR, "Failed Packet Flags")
+                #self.sendDiagnostics(diagnostic_msgs.msg.DiagnosticStatus.ERROR, "Failed Packet Flags")
                 rospy.loginfo("Failed Packet Flags ")
                 continue
             # topic id (2 bytes)
@@ -380,7 +380,7 @@ class SerialClient:
             topic_id, msg_length = struct.unpack("<hh", header)
             msg = self.port.read(msg_length)
             if (len(msg) != msg_length):
-                self.sendDiagnostics(diagnostic_msgs.msg.DiagnosticStatus.ERROR, "Packet Failed :  Failed to read msg data")
+                #self.sendDiagnostics(diagnostic_msgs.msg.DiagnosticStatus.ERROR, "Packet Failed :  Failed to read msg data")
                 rospy.loginfo("Packet Failed :  Failed to read msg data")
                 #self.port.flushInput()
                 continue
