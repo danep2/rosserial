@@ -1,3 +1,7 @@
+## Protobuf branch
+
+rosserial does not play nicely with non-8-bit client platforms, such as the ARM Cortex-M0 processor. This branch works around this using protocol buffers- but really, the issue should be solved at its source: https://github.com/ros-drivers/rosserial/issues/10
+
 ## ROSserial for Groovy+
 
 This repo is ported from https://kforge.ros.org/rosserial/hg. It is in the process of being catkinized and updated for ROS Groovy and newer.
